@@ -1,6 +1,7 @@
 package circus.stuff;
 
 public class Cage<T> {
+    // T is a type parameter (similar to template in C++)
     private T t;
 
     public void lockUp(T t) {
