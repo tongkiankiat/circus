@@ -1,10 +1,7 @@
 package circus;
 
-import circus.animal.Animal;
-import circus.animal.Duck;
-import circus.animal.Parrot;
-import circus.animal.Tiger;
-import circus.animal.Elephant;
+import circus.animal.*;
+import circus.stuff.Cage;
 import circus.stuff.Cannon;
 import circus.stuff.Equipment;
 import circus.stuff.Ladder;
@@ -15,8 +12,7 @@ import java.util.Arrays;
 public class Circus {
     private static Animal[] animals = {
             new Duck("Drake"),
-            new Parrot("Polly"),
-            new Tiger("Tai Lung")
+            new Parrot("Polly")
     };
     private static Equipment[] equipments = {
             new Ladder(50),
@@ -44,42 +40,33 @@ public class Circus {
         return total;
     }
 
-    public static void printAnimals(ArrayList<Animal> animalArrayList) {
+    private static void printAllAnimals(ArrayList<Animal> animalArrayList) {
         for (Animal a : animalArrayList) {
             System.out.println(a);
         }
     }
 
     public static void main(String[] args) {
+
         System.out.println("Number of animals: " + animals.length);
-//        makeAnimalsTalk();
-//        System.out.println("Total value of animals " + calculateAssetValue(animals));
-//        System.out.println("Total value of equipments " + calculateAssetValue(equipments));
-//         This won't work as the animals is of fixed size
-//        animals[3] = new Elephant("Strong One");
-//        System.out.println("Number of animals: " + animals.length);
-
         ArrayList<Animal> animalArrayList = new ArrayList<>(Arrays.asList(animals));
+        System.out.println("Number of animals: " + animalArrayList.size());
+        animalArrayList.add(new Tiger("Sherkhan"));
+        System.out.println("Number of animals: " + animalArrayList.size());
 
-        // Substitutability allows us to add specific animals to the "Animal" array list
-        Parrot perry = new Parrot("Perry");
-        animalArrayList.add(perry);
-        animalArrayList.add(new Elephant("Brute"));
-        Duck andy =  new Duck("Andy");
-        animalArrayList.add(andy);
+        Cage<Duck> duckCage = new Cage<>();
+        Duck duck = new Duck("Louie");
+        duckCage.lockUp(duck);
+        Parrot parrot = new Parrot("Dolly");
+        Cage<Parrot> parrotCage = new Cage<>();
+        parrotCage.lockUp(parrot);
 
-        System.out.println("Size of ArrayList: " + animalArrayList.size());
+        ArrayList<Cage> cages = new ArrayList<>();
+        cages.add(duckCage);
+        cages.add(parrotCage);
 
-        System.out.println("Perry is in position: " + animalArrayList.indexOf(perry));
-
-        System.out.println("Before sorting");
-        printAnimals(animalArrayList);
-        System.out.println("Size of ArrayList: " + animalArrayList.size());
-
-        animalArrayList.sort(Animal.AnimalNameComparator);
-
-        System.out.println("After sorting");
-        printAnimals(animalArrayList);
-        System.out.println("Size of ArrayList: " + animalArrayList.size());
+        for(Cage c: cages) {
+            c.release();
+        }
     }
 }
